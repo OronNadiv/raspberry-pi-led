@@ -1,0 +1,8 @@
+.eslint*
+.gitignore
+.nvmrc
+.travis.yml
+coverage
+src
+test
+**/*.log
