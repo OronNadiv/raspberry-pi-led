@@ -31,18 +31,18 @@ class LED {
     return self.pin < 0
       ? Promise.resolve()
       : gpio.openAsync(self.pin, 'output')
-      .then(() => {
-        info('opened.', self.name)
-        diehard.register(done => {
+        .then(() => {
+          info('opened.', self.name)
+          diehard.register(done => {
           /* istanbul ignore next */
-          info('closing', self.name)
-          /* istanbul ignore next */
-          gpio.close(self.pin, () => {
-            info('closed', self.name)
-            done()
+            info('closing', self.name)
+            /* istanbul ignore next */
+            gpio.close(self.pin, () => {
+              info('closed', self.name)
+              done()
+            })
           })
         })
-      })
   }
 }
 
