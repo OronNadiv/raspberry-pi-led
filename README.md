@@ -1,6 +1,5 @@
-# Home Automation - Rasberry Pi LED
-This package is being used by the [home automation project][overview-url].
-The package controls the LED (Light-Emitting Diode) state.
+# Rasberry Pi LED
+The package lets you control the LED (Light-Emitting Diode) state.
   
 [![NPM version][npm-image]][npm-url]
 [![Build Status][travis-image]][travis-url]
@@ -23,14 +22,14 @@ The following example uses ES6 features.
 ```javascript
 const LED = require('raspberry-pi-led')
 
-const led = new LED('My red led', 15)
+const led = new LED({ name: 'My red LED', pin: 15 }) // name - optional, pin (required): gpio pin number.
 led.initialize()
   .then(() => led.turnOn())
   .then(() => led.turnOff())
 ```
 
 ### License
-[AGPL-3.0](https://spdx.org/licenses/AGPL-3.0.html)
+[MIT](https://opensource.org/licenses/MIT)
 
 ### Author
 [Oron Nadiv](https://github.com/OronNadiv) ([oron@nadiv.us](mailto:oron@nadiv.us))

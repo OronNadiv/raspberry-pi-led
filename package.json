@@ -1,5 +1,9 @@
 {
   "name": "raspberry-pi-led",
+  "engines": {
+    "node": ">=4 <9",
+    "npm": ">=2 <6"
+  },
   "author": "Oron Nadiv <oron@nadiv.us> (https://github.com/OronNadiv/)",
   "homepage": "https://github.com/OronNadiv/raspberry-pi-led/",
   "bugs": "https://github.com/OronNadiv/raspberry-pi-led/issues",
@@ -7,18 +11,17 @@
     "type": "git",
     "url": "https://github.com/OronNadiv/raspberry-pi-led.git"
   },
-  "license": "AGPL-3.0",
+  "license": "MIT",
   "version": "1.0.0",
   "description": "Promise based, raspberry pi LED controller.",
   "main": "dist/index.js",
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && babel src --out-dir dist --source-maps --minified",
-    "cover": "istanbul cover _mocha -- --recursive -t 10000",
     "lint": "eslint .",
     "prepublish": "npm run build",
-    "test": "mocha --recursive -t 10000 && npm run lint",
-    "test-coveralls": "istanbul cover _mocha --report lcovonly -- --recursive -t 10000 -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "test": "npm run lint && npm run build && cross-env DEBUG=\"* -babel\" NODE_ENV=test nyc mocha --recursive -t 10000",
+    "test:coveralls": "nyc --reporter=lcov --reporter=text-lcov npm test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   },
   "files": [
     "dist"
@@ -27,29 +30,39 @@
     "bluebird": "^3",
     "debug": "^3.1.0",
     "diehard": "^1.5.2",
+    "lodash.isnumber": "^3.0.3",
     "pi-gpio": "^0.0.8"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
+    "babel-plugin-istanbul": "^4.1.5",
+    "babel-preset-env": "^1.6.1",
+    "chai": "^4.1.2",
     "chance": "^1.0.11",
     "coveralls": "^3.0.0",
-    "eslint": "^4.8.0",
+    "cross-env": "^5.1.0",
+    "eslint": "^4.9.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-mocha": "^4.11.0",
     "eslint-plugin-node": "^5.2.0",
-    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
-    "istanbul": "^0.4.5",
     "mocha": "^4.0.1",
     "mockery": "^2.1.0",
-    "rimraf": "^2.6.2",
-    "should": "^13.1.1"
+    "nyc": "^11.2.1",
+    "rimraf": "^2.6.2"
   },
   "babel": {
     "presets": [
-      "env"
+      [
+        "env",
+        {
+          "targets": {
+            "node": 4
+          }
+        }
+      ]
     ]
   }
 }
