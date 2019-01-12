@@ -1,10 +1,8 @@
 const debug = require('debug')
 const diehard = require('diehard')
-const Promise = require('bluebird')
-const piGpio = require('pi-gpio')
+const gpio = require('rpi-gpio')
+const gpiop = gpio.promise
 const isNumber = require('lodash.isnumber')
-
-const gpio = Promise.promisifyAll(piGpio)
 
 const info = debug('raspberry-pi-led:index:info')
 
@@ -18,27 +16,30 @@ class LED {
   }
 
   turnOff () {
-    return gpio.writeAsync(this.pin, 0)
+    return gpiop.write(this.pin, 0)
   }
 
   turnOn () {
-    return gpio.writeAsync(this.pin, 1)
+    return gpiop.write(this.pin, 1)
   }
 
   initialize () {
     const self = this
 
-    return gpio.openAsync(self.pin, 'output')
+    return gpiop
+      .setup(self.pin, gpio.DIR_OUT)
       .then(() => {
         info('opened.', self.name)
         diehard.register(
           /* istanbul ignore next */
           (done) => {
             info('closing', self.name)
-            gpio.close(self.pin, () => {
-              info('closed', self.name)
-              done()
-            })
+            gpiop
+              .destroy(self.pin)
+              .then(() => {
+                info('closed', self.name)
+                done()
+              })
           })
       })
   }

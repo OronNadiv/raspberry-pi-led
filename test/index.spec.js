@@ -19,21 +19,21 @@ describe('LED tests', () => {
     })
 
     const gpioMock = {
-      open: (pin, direction, callback) => {
-        expect(pin).to.be.within(0, 30)
-        expect(direction).to.be.equal('output')
-        expect(callback).to.be.ok
-        callback()
-      },
-      write: (pin, value, callback) => {
-        expect(pin).to.be.within(0, 30)
-        expect(value).to.be.oneOf([0, 1])
-        expect(callback).to.be.ok
-        callback()
+      DIR_OUT: 'out',
+      promise: {
+        setup: (pin, direction) => {
+          expect(pin).to.be.within(0, 30)
+          expect(direction).to.be.equal(gpioMock.DIR_OUT)
+          return Promise.resolve()
+        },
+        write: (pin, value) => {
+          expect(pin).to.be.within(0, 30)
+          expect(value).to.be.oneOf([0, 1])
+          return Promise.resolve()
+        }
       }
-
     }
-    mockery.registerMock('pi-gpio', gpioMock)
+    mockery.registerMock('rpi-gpio', gpioMock)
     LED = require('../dist/index')
   })
 

@@ -1,7 +1,7 @@
 {
   "name": "raspberry-pi-led",
   "engines": {
-    "node": ">=6 <10",
+    "node": ">=6 <11",
     "npm": ">=3 <7"
   },
   "author": "Oron Nadiv <oron@nadiv.us> (https://github.com/OronNadiv/)",
@@ -12,7 +12,7 @@
     "url": "https://github.com/OronNadiv/raspberry-pi-led.git"
   },
   "license": "MIT",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Promise based, raspberry pi LED controller.",
   "main": "dist/index.js",
   "scripts": {
@@ -31,7 +31,7 @@
     "debug": "^3.1.0",
     "diehard": "^1.5.2",
     "lodash.isnumber": "^3.0.3",
-    "pi-gpio": "^0.0.8"
+    "rpi-gpio": "^2.1.2"
   },
   "devDependencies": {
     "ajv": "^6.5.2",
